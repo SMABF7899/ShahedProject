@@ -1,20 +1,24 @@
-import serial
+# -*- coding: utf-8 -*-
 import keyboard
-import time
+import os
+from dotenv import load_dotenv
+import serial
 
-data = serial.Serial('/dev/cu.usbmodem12101', 9600)
 
+load_dotenv()
+
+
+
+data = serial.Serial(os.getenv('PORT'), 9600)
 while 1:
     if data.inWaiting() > 0:
-        input_data = data.readline()
+        input_data = str(data.readline().decode())
         print(input_data)
-        input_data = str(input_data)
         if "Play/Pause" in input_data:
             keyboard.press_and_release('space')
-            time.sleep(2)
+
         elif "Forward" in input_data:
             keyboard.press_and_release('right')
-            time.sleep(2)
+
         elif "Backward" in input_data:
             keyboard.press_and_release('left')
-            time.sleep(2)
